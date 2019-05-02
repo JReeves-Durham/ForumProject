@@ -29,7 +29,7 @@ app.get("/users/:email", function(req, resp){
 	var userIndex = findUser(req.params.email);
     
 	if(userIndex == -1){
-        resp.sendStatus(400).send("User not found")
+		resp.sendStatus(400).send("User not found");
 	}else {
 		resp.send(users[index]);
 	}
@@ -99,6 +99,6 @@ function findEmail(email) {
 }
 
 // Listener function for the app
-app.listen(process.env.PORT || 5000)
+app.listen(process.env.PORT || 5000);
 
 module.exports = app;
