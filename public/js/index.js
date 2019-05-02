@@ -7,8 +7,6 @@ var config = {
 	storageBucket: "forum-project-807e2.appspot.com",
 	messagingSenderId: "513223098966"
 };
-// Exporting for tests
-module.exports = server
 
 // Initialize Firebase
 firebase.initializeApp(config);
@@ -55,7 +53,7 @@ loginForm.addEventListener("submit", e => {
 	promise.then( () => {
 		$("#loginModal").modal("hide");
 
-		var url = "http://localhost:5000/login";
+		var url = "/login";
 
 		try {
 			var data = {
@@ -123,7 +121,7 @@ registerForm.addEventListener("submit", e => {
 		promise.catch(e => alert(e.message));
 
 		try {
-			var url = "http://localhost:5000/register";
+			var url = "/register";
 
 			var data = {
 				"email": email,
@@ -180,7 +178,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 // When the new-post form is submitted
 document.getElementById("new-post").addEventListener("submit", async function(event) {
 	event.preventDefault();
-	var url = "http://localhost:5000/newpost";
+	var url = "/newpost";
 
 	try {
 		var data = {
@@ -243,7 +241,7 @@ document.getElementById("userdetailsForm").addEventListener("submit", e => {
 	}
 	else {
 		try {
-			var url = "http://localhost:5000/register";
+			var url = "/register";
 
 			var data = {
 				"email": email,
@@ -270,7 +268,7 @@ document.getElementById("userdetailsForm").addEventListener("submit", e => {
 
 // Used to display new posts
 function updatePosts() {
-	var url = "http://localhost:5000/posts";
+	var url = "/posts";
 	try {
 		var data = "";
 		fetch(url)
