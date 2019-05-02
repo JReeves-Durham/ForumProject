@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Firebase for authentication -->
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+        
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+                <button class="btn btn-outline-success" type="button" data-toggle='modal' data-target='#loginModal' id='loginModalBtn' style="">
+                    Login
+                </button>
+                <button class="btn btn-outline-success" type="button" id='registerModalBtn' style="margin-left:10px;" data-toggle='modal' data-target='#registerModal'>
+                    Register
+                </button>
+                <button class="btn btn-outline-success" type="button" id='logoutBtn' style="display:none;">
+                    Logout
+                </button>
+            </form>
+        </nav>
+
+        <section class="jumbotron text-center">
+                <div class="container">
+                    <!-- Header text -->
+                    <h1 class="jumbotron-heading">My Forum</h1>
+                    <p class="lead text-muted">Upload blog posts for the reading pleasure of others. Why should you bother doing that you may ask? You are doing it because an anonymous computer science student is telling you to, and this peer review is worth 5% of your marks for this module that's why.</p>
+                    <p>
+                        <button id="postCollapseBtn" class="btn btn-primary" type="button" aria-expanded="false" aria-controls="collapseExample">
+                            Create a new post
+                        </button>
+                    </p>
+                    <!-- Form for uploading new posts -->
+                    <div class="collapse" id="postCollapse">
+                        <form id="new-post" method=POST action="/newPost" enctype="multipart/form-data">
+                            <div class="card card-body">
+                                <!-- Caption Text Input -->
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Post body</span>
+                                    </div>
+                                    <textarea class="form-control" id="postTxt" placeholder="Write down your thoughts here, we won't record them I promise" rows=8></textarea>
+                                </div>
+                                <p></p>
+                                <!-- Upload button -->
+                                <input class="btn btn-outline-secondary" type="submit" id="postUploadBtn" value="Upload Post" name="Submission Uploads"/>
+                            </div>
+                        </form>
+                    </div> 
+                </div>
+                </section>
+        
+        <!-- Login Modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Login</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="emailField">Email</label>
+                                <input type="email" class="form-control" id="loginEmailTxt" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="passwordField">Password</label>
+                                <input type="password" class="form-control" id="loginPasswordTxt" placeholder="Password">
+                            </div>
+                            <button type='submit' class="btn btn-primary" id='loginBtn'>Log in</button>
+                        </form>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <button style="margin-bottom:10px;" class="dropdown-item" data-dismiss='modal' data-toggle='modal' data-target='#registerModal' >
+                        Don't have an account? Register here
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Modal -->
+        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalScrollableTitle">Register</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="registerForm">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                        <label for="registerEmailTxt">Email</label>
+                                        <input type="email" class="form-control" id="registerEmailTxt" name="" placeholder="Email">
+                                    </div>
+                                    <div class="form-group">    
+                                        <label for="registerFirstnameTxt">First Name</label>
+                                        <input type="text" class="form-control" id="registerFirstnameTxt" placeholder="John">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="registerSurnameTxt">Surname</label>
+                                        <input type="text" class="form-control" id="registerSurnameTxt" placeholder="Doe">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="registerBioField">Biography</label>
+                                        <textarea class="form-control" id="registerBioField" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="registerPasswordTxt">Password</label>
+                                        <input type="password" class="form-control" id="registerPasswordTxt" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="registerConfirmPasswordTxt">Confirm Password</label>
+                                        <input type="password" class="form-control" id="registerConfirmPasswordTxt" placeholder="Confirm Password">
+                                </div>
+                                <button type='submit' class="btn btn-primary" id="registerBtn">Register</button>
+                            </div>
+                        </form>
+                        <div class="dropdown-divider"></div>
+                        <button style="margin-bottom:10px;" class="dropdown-item" data-dismiss='modal' data-toggle='modal' data-target='#loginModal' >
+                            Already have an account? Login here
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update user details form -->
+            <div class="modal fade" id="userdetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalScrollableTitle">User Details</h5>
+                            </div>
+                            <form id="userdetailsForm">
+                                <div class="modal-body">
+                                        <div class="form-group">    
+                                            <label for="updateEmailField">Email</label>
+                                            <input type="text" class="form-control" id="updateEmailField">
+                                        </div>
+                                        <div class="form-group">    
+                                            <label for="updatePasswordField">Password</label>
+                                            <input type="password" class="form-control" id="updatePasswordField">
+                                        </div>
+                                        <div class="form-group">    
+                                            <label for="updateFirstnameField">First Name</label>
+                                            <input type="text" class="form-control" id="updateFirstnameField" placeholder="John">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateSurnameField">Surname</label>
+                                            <input type="text" class="form-control" id="updateSurnameField" placeholder="Doe">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateBioField">Biography</label>
+                                            <textarea class="form-control" id="updateBioField" rows="3"></textarea>
+                                        </div>
+                                    <button type='submit' class="btn btn-primary" id="userdetailsBtn">Update Details</button>
+                                </div>
+                            </form>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </div>
+                </div>
+
+        <!-- Where all the user's posts are stored -->
+        <div id="userPosts">
+
+        </div>
+
+        <!-- index.js load -->
+        <script type="text/javascript" src="../js/index.js"></script>
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+    
+</html>
